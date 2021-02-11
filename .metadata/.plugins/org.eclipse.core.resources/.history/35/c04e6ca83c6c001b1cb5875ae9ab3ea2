@@ -1,0 +1,98 @@
+package com.example.demo.serviceimpl;
+
+
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.dao.Address;
+import com.example.demo.dao.User;
+import com.example.demo.model.Addressdto;
+import com.example.demo.model.Userdto;
+import com.example.demo.repo.AddressRepository;
+import com.example.demo.repo.GenericRepo;
+import com.example.demo.repo.UsersRepository;
+import com.example.demo.service.UserService;
+import com.example.demo.util.DynamicObjectMapper;
+
+@Service
+public class UserServiceImpl implements UserService<User>{
+	
+	@Autowired
+	UsersRepository repo;
+	
+	@Autowired
+	AddressRepository addrepo;
+	
+     public Optional<Userdto> createUser(Userdto user){ 
+    	 User userdao = new User();
+    	 User saveuser = (User)DynamicObjectMapper.convertObjectToDao(user, userdao);
+    	    Optional<User> userDb = repo.findByemail(user.getEmail());
+			if(userDb.isPresent()) { 
+				System.out.println("Value is present");
+				return Optional.ofNullable(null); 
+			}
+			System.out.println("Value is not present");
+			Userdto usrretndto = (Userdto)DynamicObjectMapper.convertObjectToDto(user, userdao);	
+		    repo.save(saveuser);
+		    return Optional.of(usrretndto); 
+		
+	 }
+     
+     @Override
+     public Optional<Addressdto> createUser(Addressdto address, long id){ 
+    	 Address userdao = new Address();
+    	 Address saveuser = (Address)DynamicObjectMapper.convertObjectToDao(address, userdao);
+    	    Optional<User> userdbObj = repo.findById(id);
+			if(userdbObj.isPresent()) { 
+				User userObjfromOptnal = userdbObj.get();
+				userObjfromOptnal.setAddress(address);
+				User user1 = repo.save(userObjfromOptnal);
+				Optional<Addressdto> optionalUser = Optional.of(user1.getAddress());
+			    return optionalUser;
+			}
+		    return Optional.of(null); 
+	 }
+
+	public Optional<List<Userdto>> getUser() {
+			List<Userdto> list = repo.findAll();
+			if(list.isEmpty()) {
+				return Optional.ofNullable(null); 
+			}
+			Optional<List<Userdto>> NotEmptyList = Optional.of(list);
+			return NotEmptyList; 
+	}
+	
+	@Override
+	public Optional<Userdto> Update(Userdto u, long id){
+		 Optional<Userdto> usrobj = repo.findById(id);
+		 Predicate<Long> ids = s ->(s!=null);
+		 Userdto usr =  usrobj.get();
+		 if(ids.test(usr.getUserid())) {
+			 usr.setEmail(u.getEmail());
+			 usr.setName(u.getName());
+			 usr.setPhoneno(u.getPhoneno());
+			 repo.save(usr);
+			 Optional<Userdto> optionalUser = Optional.of(usr);
+			 return optionalUser;
+		 }
+		  return null;
+	}
+	
+	public Optional<Addressdto> findAddress(long id){
+		Optional<User> userdb = repo.findById(id);
+		if(userdb.isPresent()) {
+			return Optional.of(userdb.get().getAddress());
+		}
+		    return Optional.of(null);
+	}
+	
+	public Userdto fetchById(Object id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

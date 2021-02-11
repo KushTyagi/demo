@@ -1,0 +1,13 @@
+package com.example.demo.service;
+
+import java.util.Optional;
+import com.example.demo.model.User;
+
+public interface AddressService<Address> {
+
+	public Optional<String> createAddress(Address t, Object id);
+	public Optional getUser();
+	public Optional<Object> Update(User u, long id);
+	public Object fetchById(Object id);
+	
+}

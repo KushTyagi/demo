@@ -1,0 +1,12 @@
+package com.example.demo.model;
+
+public class Address {
+
+	private String district;
+	private String pincode;
+	private String city;
+	private String nearBy;
+	private String houseno;
+	private String streetno;
+	
+}

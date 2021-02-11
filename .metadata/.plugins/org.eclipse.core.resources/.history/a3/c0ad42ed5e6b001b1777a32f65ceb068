@@ -1,0 +1,14 @@
+package com.example.demo.dao;
+
+import com.example.demo.model.User;
+
+public class UserMapper {
+
+	public static User mapToUser(User user) {
+		return new User();
+	}
+	
+	public static User mapToUsr(User user) {
+		
+	}
+}

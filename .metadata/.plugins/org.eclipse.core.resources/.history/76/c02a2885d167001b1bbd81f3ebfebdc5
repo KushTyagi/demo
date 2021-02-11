@@ -1,0 +1,47 @@
+package com.example.demo.conf;
+
+import javax.sql.DataSource;
+
+
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+
+import com.example.demo.entity.Userentity;
+import com.zaxxer.hikari.HikariDataSource;
+
+@Configuration
+public class UserDataBaseConfiguration {
+
+	@Bean
+	@Primary
+	@ConfigurationProperties("user.datasource")
+	public DataSourceProperties userDataSourceProperties() {
+		return new DataSourceProperties();
+	}
+	
+	@Bean
+	@Primary
+	public DataSource userDataSource() {
+		return userDataSourceProperties().initializeDataSourceBuilder()
+				.type(HikariDataSource.class).build();
+	}
+	
+	/*
+	 * We use EntityManagerFactoryBean bean to obtain the instance of EntityManager 
+	 * 
+	*/
+	@Primary
+	@Bean("userEntityManagerFactory")
+	public LocalContainerEntityManagerFactoryBean userEntityManagerFactory(EntityManagerFactoryBuilder builder) {
+      		return builder.dataSource(userDataSource()).packages(Userentity.class).build();
+	}
+	
+	
+}
+
+

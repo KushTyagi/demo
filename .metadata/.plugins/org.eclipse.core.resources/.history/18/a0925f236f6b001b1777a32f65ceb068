@@ -1,0 +1,8 @@
+package com.example.demo.util;
+
+public class DynamicObjectMapper<T> {
+
+	public static Object convertObject(Object obj) {
+		
+	}
+}

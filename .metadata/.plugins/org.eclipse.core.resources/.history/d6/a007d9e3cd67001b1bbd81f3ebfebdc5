@@ -1,0 +1,27 @@
+package com.example.demo.conf;
+
+import java.util.Map;
+
+import javax.sql.DataSource;
+
+import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
+import com.zaxxer.hikari.HikariDataSource;
+
+@Configuration
+
+public class UserDataBaseConfiguration {
+
+	public DataSourceProperties userDataSourceProperties() {
+		return new DataSourceProperties();
+	}
+	
+	
+	public DataSource userDataSource() {
+		return userDataSourceProperties().initializeDataSourceBuilder()
+				.type(HikariDataSource.class).build();
+	}
+}

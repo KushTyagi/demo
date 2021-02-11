@@ -1,0 +1,18 @@
+package com.example.demo.conf;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+
+@Configuration
+
+public class UserDataBaseConfiguration {
+
+	public LocalContainerEntityManagerFactoryBean userEntityManager() {
+		LocalContainerEntityManagerFactoryBean localentitymanager = new LocalContainerEntityManagerFactoryBean();
+	    localentitymanager.setDataSource(null);
+	    localentitymanager.setPackagesToScan(new String("com.example.demo.entity"));
+	    HibernateJpaVendorAdapter va = new HibernateJpaVendorAdapter();
+	    
+	}
+}

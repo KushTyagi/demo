@@ -1,0 +1,93 @@
+package com.example.demo.serviceimpl;
+
+
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.model.Address;
+import com.example.demo.model.User;
+import com.example.demo.repo.AddressRepository;
+import com.example.demo.repo.GenericRepo;
+import com.example.demo.repo.UsersRepository;
+import com.example.demo.service.UserService;
+
+@Service
+public class UserServiceImpl implements UserService<User>{
+	
+	@Autowired
+	UsersRepository repo;
+	
+	@Autowired
+	AddressRepository addrepo;
+	
+     public Optional<User> createUser(User user){ 
+			//long ids = (long)id;
+			//check if email exist
+			//yes , return 409
+    	    Optional<User> u = repo.findByemail(user.getEmail());
+			Predicate<String> name = s ->!s.isEmpty();
+			User usr =  u.get();
+			String usrmail = usr.getEmail();
+		    Optional<String> opt = Optional.of("User already registered");
+			if(name.test(usrmail)) { 
+				
+				return u;
+			}
+		    User user1 = repo.save(user);
+		    Optional<User> optionalUser = Optional.of(user);
+		    return optionalUser;
+		
+	 }
+     
+     @Override
+     public Optional<Address> createUser(User user, Address address){ 
+			//long ids = (long)id;
+			//check if email exist
+			//yes , return 409
+    	 Optional<Address> optionalUser = null;
+    	    Optional<User> u = repo.findByemail(user.getEmail());
+			Predicate<String> name = s ->(s!=null);
+			User usr =  u.get();
+			String usrmail = usr.getEmail();
+			if(name.test(usrmail)) { 
+				usr.setAddress(address);
+				User user1 = repo.save(usr);
+			 optionalUser = Optional.of(user1.getAddress());
+			}
+		    return optionalUser;
+	 }
+
+	public Optional<List<User>> getUser() {
+		//only use in fetch data and return it
+		List<User> list = repo.findAll();
+		Optional<List<User>> NotEmptyList = Optional.of(list);
+		return NotEmptyList; 
+	}
+	
+	@Override
+	public Optional<Object> Update(User u, long id){
+		 Optional<User> usrobj = repo.findById(id);
+		 Predicate<Long> ids = s ->(s!=null);
+		 User usr =  usrobj.get();
+		 if(ids.test(usr.getUserid())) {
+			 usr.setEmail(u.getEmail());
+			 usr.setName(u.getName());
+			 usr.setPhoneno(u.getPhoneno());
+			 repo.save(usr);
+			 Optional<Object> optionalUser = Optional.of(usr);
+			 return optionalUser;
+		 }
+		  return null;
+	}
+	
+	
+	public User fetchById(Object id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

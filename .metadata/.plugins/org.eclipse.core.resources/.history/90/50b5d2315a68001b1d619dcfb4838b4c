@@ -1,0 +1,5 @@
+user.datasource.url=jdbc:mysql://localhost:3306/userdb?createDatabaseIfNotExist=true
+user.datasource.username=root
+user.datasource.password=
+user.datasource.driverClassName=com.mysql.cj.jdbc.Driver
+user.datasource.ddl-auto=create

@@ -1,0 +1,6 @@
+package com.example.demo.dynamicloader;
+
+public class DynamicProperty {
+
+	//public static <T>
+}

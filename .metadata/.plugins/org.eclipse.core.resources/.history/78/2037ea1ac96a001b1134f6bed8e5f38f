@@ -1,0 +1,41 @@
+package com.example.demo.serviceimpl;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.example.demo.model.User;
+import com.example.demo.repo.AddressRepository;
+import com.example.demo.service.AddressService;
+
+public class AddressServiceimpl<Address> implements AddressService<Address>{
+
+	@Autowired
+	AddressRepository addrepo;
+	
+	@Override
+	public Optional<Address> createAddress(Address address) {
+		Address addressobj = (Address) addrepo.save(address);
+		Optional<Address> optionalAddress = Optional.of(addressobj);
+		return optionalAddress;
+	}
+
+	@Override
+	public Optional<List<Address>> getUser() { 
+		List<Address> list = (List<Address>) addrepo.findAll();
+		return null;
+	}
+
+	@Override
+	public Optional<Address> Update(User u, long id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Object fetchById(Object id) {
+		// TODO Auto-generated method stub
+		return null;
+	}	
+}

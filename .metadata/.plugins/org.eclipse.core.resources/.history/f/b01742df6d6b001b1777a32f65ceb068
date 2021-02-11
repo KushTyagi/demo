@@ -1,0 +1,83 @@
+package com.example.demo.controller;
+
+
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.function.Predicate;
+import javax.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.example.demo.model.Address;
+import com.example.demo.model.User;
+import com.example.demo.repo.AddressRepository;
+import com.example.demo.repo.UsersRepository;
+import com.example.demo.service.AddressService;
+import com.example.demo.service.UserService;
+
+@RestController
+@RequestMapping("/api/v1/users")
+public class UserController<T> {
+    
+	@Autowired
+	UserService<User> usrserv;
+	
+
+	
+	 @PostMapping() 
+	 public ResponseEntity<User> createUser(@Valid @RequestBody User user){
+			 Optional<User> obj = usrserv.createUser(user);
+				 if(!obj.isPresent()) {
+			        	return new ResponseEntity<>(null, HttpStatus.CONFLICT);
+			        }
+			        User userObj = obj.get();
+			            return new ResponseEntity<>(userObj, HttpStatus.CREATED);       
+       }
+	 
+	 @GetMapping("/users") 
+	 public ResponseEntity<Object> fetchAll() {
+	       Optional<List<User>> userlist = usrserv.getUser();
+	    	   if(!userlist.isPresent()) {
+		    	   return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+		       }
+		      
+		           return new ResponseEntity<>(userlist.get(), HttpStatus.OK);   
+	 }
+	 
+	@PutMapping("{user_id}")
+	public ResponseEntity<Object> Update(@RequestBody User user, @PathVariable long id) {
+         Optional<User> userobject = usrserv.Update(user, id);
+         User userObject = userobject.get();
+         if(Objects.isNull(userObject)) {
+        	 return new ResponseEntity<Object>(userObject, HttpStatus.INTERNAL_SERVER_ERROR); 
+         }
+             return new ResponseEntity<Object>(userObject, HttpStatus.OK);
+	}
+	
+	 @PostMapping("/api/v1/users/{user_id}/addresses") 
+	 public ResponseEntity<Object> userAddress(@Valid @RequestBody Address address, @PathVariable long id){ 
+	        Optional<Address> addressobj = usrserv.createUser(address,id);
+	        if(Objects.isNull(addressobj)) {
+	        	return new ResponseEntity<>(addressobj, HttpStatus.CONFLICT);
+	        }
+	            return new ResponseEntity<>(addressobj, HttpStatus.CREATED);
+	 }
+	 
+	 @GetMapping("/{user_id}/addresses") 
+	 public ResponseEntity<Object> fetchAddress(@PathVariable long id) {
+		 Optional<Address> addressObj = (Optional<Address>) usrserv.fetchById(id);
+			if(Objects.isNull(addressObj)) {
+				return new ResponseEntity<>(addressObj, HttpStatus.NO_CONTENT);
+			}
+	       return new ResponseEntity<>(addressObj, HttpStatus.OK);
+	 }
+}

@@ -1,0 +1,12 @@
+package com.example.demo.service;
+
+import java.util.List;
+
+import com.example.demo.entity.Userentity;
+
+public interface User<T> {
+	public Object createUser(T t, Object id);
+	public T getUser();
+	public void Update(Userentity u, long id);
+	public T fetchById(Object id);
+}

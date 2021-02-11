@@ -1,0 +1,45 @@
+package com.example.demo.util;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.demo.entity.Userentity;
+
+public class FieldUtil<T> {
+
+	public static String getFields(Object usr) {
+		Class clazz = usr.getClass();
+		Userentity obj = (Userentity) usr;
+		Field[] singleResultObjectClassfields = clazz.getDeclaredFields();
+		
+		for(Field singleResultObjectClassfieldsfield : singleResultObjectClassfields) {
+			singleResultObjectClassfieldsfield.setAccessible(true);
+			for(int i=0; i<singleResultObjectClassfields.length; i++) {
+				String name = singleResultObjectClassfieldsfield.getName();
+	             switch(name) {
+				
+				case "name": return obj.getName();
+				 
+				case "address": return obj.getAddress(); 
+				
+				default:System.out.println("Not Found");
+	              }
+			}
+			
+			}
+		return "";
+	}
+	
+	public static Class<?> getField(Object u) {
+		Userentity obj = (Userentity) u;
+		return obj.getClass();
+	}
+	
+	public static void main(String []arr) {
+		Userentity u = new Userentity();
+		u.setAddress("abc");
+		u.setName("xyz");
+		System.out.println(FieldUtil.getFields(u));
+	}
+}

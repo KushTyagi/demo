@@ -1,0 +1,8 @@
+package com.example.demo.exception;
+
+public class RecordeNotFoundException extends RuntimeException{
+
+	public RecordeNotFoundException(String exception) {
+		super(exception);
+	}
+}

@@ -1,0 +1,9 @@
+package com.example.demo.dynamicloader;
+
+import java.lang.reflect.InvocationHandler;
+
+public class Handler implements InvocationHandler{
+
+	Object obj;
+	
+}

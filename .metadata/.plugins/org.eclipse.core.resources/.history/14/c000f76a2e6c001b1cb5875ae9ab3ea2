@@ -1,0 +1,24 @@
+package com.example.demo.security;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import com.example.demo.serviceimpl.UserDetailsServiceImpl;
+
+@EnableWebSecurity
+public class WebSecurity extends WebSecurityConfigurerAdapter{
+    @Autowired
+	private UserDetailsServiceImpl userDetailsServiceImpl;
+    @Autowired
+	private BCryptPasswordEncoder bCryptPassWordEncoder;
+	
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// TODO Auto-generated method stub
+		super.configure(http);
+	}
+	
+	
+}

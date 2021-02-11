@@ -1,0 +1,4 @@
+user.datasource.url=jdbc:mysql://localhost:3306/memberdb?createDatabaseIfNotExist=true
+user.datasource.username=root
+user.datasource.password=
+user.datasource.driverClassName=com.mysql.cj.jdbc.Driver

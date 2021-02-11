@@ -1,0 +1,60 @@
+package com.example.demo.model;
+
+import javax.persistence.CascadeType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.validation.constraints.NotBlank;
+
+public class User {
+       
+	    @Id
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
+		private long id;
+	    @NotBlank(message = "Name is mandatory")
+		private String name;
+	    @NotBlank(message = "phoneno is mandatory")
+	    private String phoneno;
+	    @NotBlank(message = "email is mandatory")
+	    private String email;
+	    @OneToOne(cascade = CascadeType.ALL)
+	    
+		private Address address;
+	    
+		public long getId() {
+			return id;
+		}
+		public void setId(long id) {
+			this.id = id;
+		}
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public String getPhoneno() {
+			return phoneno;
+		}
+		public void setPhoneno(String phoneno) {
+			this.phoneno = phoneno;
+		}
+		public String getEmail() {
+			return email;
+		}
+		public void setEmail(String email) {
+			this.email = email;
+		}
+		public Address getAddress() {
+			return address;
+		}
+		public void setAddress(Address address) {
+			this.address = address;
+		}
+		@Override
+		public String toString() {
+			return "User [id=" + id + ", name=" + name + ", phoneno=" + phoneno + ", email=" + email + ", address="
+					+ address + "]";
+		}
+}

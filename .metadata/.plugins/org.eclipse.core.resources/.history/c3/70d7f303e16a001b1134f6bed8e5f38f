@@ -1,0 +1,87 @@
+package com.example.demo.serviceimpl;
+
+
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Predicate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import com.example.demo.model.Address;
+import com.example.demo.model.User;
+import com.example.demo.repo.AddressRepository;
+import com.example.demo.repo.GenericRepo;
+import com.example.demo.repo.UsersRepository;
+import com.example.demo.service.UserService;
+
+@Service
+public class UserServiceImpl implements UserService<User>{
+	
+	@Autowired
+	UsersRepository repo;
+	
+	@Autowired
+	AddressRepository addrepo;
+	
+     public Optional<User> createUser(User user){ 
+    	    Optional<User> userDb = repo.findByemail(user.getEmail());
+			if(!userDb.isPresent()) { 		
+				return Optional.of(null); 
+			}
+		  return  Optional.of(repo.save(user));
+		
+	 }
+     
+     @Override
+     public Optional<Address> createUser(Address address, long id){ 
+    	    Optional<User> userdbObj = repo.findById(id);
+			if(userdbObj.isPresent()) { 
+				User userObjfromOptnal = userdbObj.get();
+				userObjfromOptnal.setAddress(address);
+				User user1 = repo.save(userObjfromOptnal);
+				Optional<Address> optionalUser = Optional.of(user1.getAddress());
+			    return optionalUser;
+			}
+		    return Optional.of(null); 
+	 }
+
+	public Optional<List<User>> getUser() {
+		List<User> list = repo.findAll();
+		if(list.isEmpty()) {
+			return Optional.of(null); 
+		}
+		Optional<List<User>> NotEmptyList = Optional.of(list);
+		return NotEmptyList; 
+	}
+	
+	@Override
+	public Optional<User> Update(User u, long id){
+		 Optional<User> usrobj = repo.findById(id);
+		 Predicate<Long> ids = s ->(s!=null);
+		 User usr =  usrobj.get();
+		 if(ids.test(usr.getUserid())) {
+			 usr.setEmail(u.getEmail());
+			 usr.setName(u.getName());
+			 usr.setPhoneno(u.getPhoneno());
+			 repo.save(usr);
+			 Optional<User> optionalUser = Optional.of(usr);
+			 return optionalUser;
+		 }
+		  return null;
+	}
+	
+	public Optional<List<Address>> findAddress(long id){
+		Optional<User> userdb = repo.findById(id);
+		if(userdb.isPresent()) {
+			Optional.of(userdb.get().getAddress());
+		}
+		    Optional.of(null);
+	}
+	
+	public User fetchById(Object id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+}

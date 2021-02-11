@@ -1,0 +1,7 @@
+package com.example.demo.response;
+
+public class Responsebean {
+
+	private String responseCode;
+	private String responseMsg;
+}

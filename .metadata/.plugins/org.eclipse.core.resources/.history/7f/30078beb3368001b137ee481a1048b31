@@ -1,0 +1,7 @@
+package com.example.demo.repo;
+
+public interface UserRepo<T> {
+
+	public T create(T u);
+	public T getUser();
+}

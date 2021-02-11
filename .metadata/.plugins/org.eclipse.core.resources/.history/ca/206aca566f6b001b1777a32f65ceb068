@@ -1,0 +1,14 @@
+package com.example.demo.util;
+
+public class DynamicObjectMapper<T> {
+
+	public static Object convertObject(Object dtoObj, Object daoObj) {
+		
+		for(int i=0; i<str.length; i++) {
+			Method method = singleResultObject.getClass().getDeclaredMethod(str[i], String.class); 
+				method.invoke(singleResultObject, FieldUtil.getFields(obj)); 
+				em.merge(singleResultObject);
+				return (T)bean;
+		}
+	}
+}

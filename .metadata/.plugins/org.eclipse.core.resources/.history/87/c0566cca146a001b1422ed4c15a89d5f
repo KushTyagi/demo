@@ -1,0 +1,26 @@
+package com.example.demo.dynamicloader;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+
+import com.sun.xml.bind.v2.schemagen.xmlschema.Annotation;
+
+public class Handler implements InvocationHandler{
+
+	Object obj;
+
+	public Handler(Object obj) {
+		this.obj = obj;
+	}
+	@Override
+	public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+		String key = null;
+		String defaultValue = null;
+		try {
+			
+			Annotation[]  annotations = method.getAnnotations();
+		}
+		return null;
+	}
+	
+}

@@ -1,0 +1,39 @@
+package com.example.demo.util;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.demo.entity.Userentity;
+
+public class FieldUtil<T> {
+
+	public static String getFields(Object usr) throws Exception{
+		Class clazz = usr.getClass();
+		
+		Userentity obj = (Userentity) usr;
+		String[] str2 = new String[] {"name","address"};
+		for(int i=0; i<str.length; i++) {
+			Method method = obj.getClass().getDeclaredMethod(str[i], String.class); 
+			method.setAccessible(true);
+			
+			method.invoke(obj, "hhhh");
+			System.out.println("Method "+obj.getName());
+		}
+			
+		return "";
+	}
+	
+	public static Class<?> getField(Object u) {
+		Userentity obj = (Userentity) u;
+		return obj.getClass();
+	}
+	
+	//public static void main(String []arr)throws Exception {
+	//	Userentity u = new Userentity();
+	//	u.setAddress("abc");
+	//	u.setName("xyz");
+	//	System.out.println(FieldUtil.getFields(u));
+	//}
+}
